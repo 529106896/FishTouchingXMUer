@@ -1,0 +1,3 @@
+必做模块：https://git.xmu.edu.cn/yuanjiazhe/oomall-addtional
+选做模块：https://gitee.com/X-Raymend/oomall
+权限模块：https://git.xmu.edu.cn/yuanjiazhe/privilege-gateway-one2three

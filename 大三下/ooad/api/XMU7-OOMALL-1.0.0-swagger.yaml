@@ -1,0 +1,3160 @@
+swagger: '2.0'
+info:
+  description: 这里是OOAD课程其他部分模块API设计
+     1-07小组API设计，共四个部分， 
+   - 买家服务部分(customer), 
+   - 售后服务部分(aftersale),
+   - 分享服务部分(share),
+   - 清算服务部分(liquidation)
+ 
+   - 通用错误处理
+   所有在路径上的id不存在，返回状态码404，errno = 504， errmsg 自定义
+   所有参数的错误返回状态码400，errno = 503， errmsg 自定义
+   未登录的状态码为401
+   没有权限访问， 返回状态码403，errno = 0
+   访问的对象不是本shop的对象，返回状态码403，errno = 505， errmsg 自定义
+   - API中时间格式的定义
+   统一为yyyy-MM-dd HH:mm:ss.SSS 
+   如2016-05-09 13:09:55.235 表示2016年05月09日13点09分55秒235毫秒，时区为应用服务器所在地时区
+  version: 1.0.0
+  title: "其他部分API设计"
+  contact:
+    email: xiutai@stu.xmu.edu.cn
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: "customer"
+  description: "买家服务"
+- name: "aftersale"
+  description: "售后服务"
+- name: "liquidation"
+  description: "清算服务"  
+- name: "share"
+  description: "分享服务"
+  
+# schemes:
+# - "http"
+
+paths:
+  #顾客模块
+  /customers/register:
+    post:
+      tags:
+      - "customer"
+      summary: "注册用户"    
+      description: "无需登录"
+      operationId: "registerUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "可填写的用户信息"
+        required: true
+        schema:
+          properties:
+            user_name:
+              type: "string"
+            password:
+              type: "string"
+            realName:
+              type: "string"
+            email:
+              type: "string"
+            mobile:
+              type: "string"
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        "733":
+          description: "电话已被注册"
+        "732":
+          description: "邮箱已被注册"
+        "731":
+          description: "用户名已被注册"
+
+  /customers/login:
+    post:
+      tags:
+      - "customer"
+      summary: "用户名密码登录"
+      operationId: "login"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "用户名/邮箱/电话和密码进行登陆"
+        required: true
+        schema:
+          properties:
+            name:
+              type: "string"
+            password:
+              type: "string"
+      responses:
+        "default":
+          description: "成功登录,返回用户的token"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+              errmsg: 
+                type: "string"
+        "702":
+          description: "用户被禁止登录"
+        "700":
+          description: "用户名不存在或者密码错误"
+
+  /customers/logout:
+    get:
+      tags:
+      - "customer"
+      summary: "用户登出"
+      description: ""
+      operationId: "logout"
+      produces:
+      - "application/json"
+      parameters: 
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+                
+  /customers/reset:
+    put:
+      tags:
+      - "customer"
+      summary: "用户忘记密码"
+      description: "向用户邮箱发送验证码，限制用户在一段时间内只能发送一次验证码"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "邮箱和用户名"
+        required: true
+        schema:
+          properties:
+            userName:
+              type: "string"
+            email:
+              type: "string"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        "745":
+          description: "与系统预留的邮箱不一致"
+  
+  /customers:
+    get:
+      tags:
+      - "customer"
+      summary: "买家查看自己信息"
+      description: ""
+      operationId: "getSelfInfo"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                $ref: "#/definitions/Customer"
+        '401':
+          description: Unauthorized 未登录
+    put:
+      tags:
+      - "customer"
+      summary: "买家修改自己的信息"
+      description: ""
+      operationId: "changeMyselfInfo"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "body"
+        in: "body"
+        description: "可修改的用户信息"
+        required: true
+        schema:
+          properties:
+            realName:
+              type: "string"
+            email:
+              type: "string"
+            mobile:
+              type: "string"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+          description: Unauthorized 未登录
+  /customers/passwords:
+    put:
+      tags:
+      - "customer"
+      summary: "用户修改密码"
+      description: |-
+        - 密码长度为6，且至少包含大写字母，小写字母，数字和特殊符号
+        - 验证码只能使用一次，验证码有效期5分钟
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "验证码和新密码"
+        required: true
+        schema:
+          properties:
+            captcha:
+              type: "string"
+              description: "验证码"
+            newPassword:
+              type: "string"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        "741":
+          description: "不能与旧密码相同"
+        "742":
+          description: "密码格式不合要求"
+        '401':
+          description: Unauthorized 未登录
+  /shops/{shopId}/customers:
+    get:
+      tags:
+      - "customer"
+      summary: "管理员查看所有买家列表"
+      description: ""
+      operationId: "getUsers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        in: "header"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "shopId"
+        in: "path"
+        description: "只能为0，其他值报403错误"
+        required: true
+        type: "integer"
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: false
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: false        
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:                              
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/SimpleCustomer"            
+  /shops/{shopId}/customers/{id}:
+    get:
+      tags:
+      - "customer"
+      summary: "管理员查看任意买家信息"
+      description: ""
+      operationId: "getUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        in: "header"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "shopId"
+        in: "path"
+        description: "只能为0，其他值报403错误"
+        required: true
+        type: "integer"        
+      - name: "id"
+        in: "path"
+        description: "用户id"
+        required: true
+        type: "integer"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+              errmsg: 
+                type: "string"
+              data:
+                $ref: "#/definitions/Customer"            
+  /shops/{shopId}/customers/{id}/ban:
+    put:
+      tags:
+      - "customer"
+      summary: "平台管理员封禁买家"
+      description: ""
+      operationId: "banUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        description: "只能为0，其他值报403错误"
+        required: true
+        type: "integer"   
+      - name: "id"
+        in: "path"
+        description: "用户id"
+        required: true
+        type: "integer"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+  /shops/{shopId}/customers/{id}/release:
+    put:
+      tags:
+      - "customer"
+      summary: "平台管理员解禁买家"
+      description: ""
+      operationId: "releaseUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        description: "只能为0，其他值报403错误"
+        required: true
+        type: "integer"   
+      - name: "id"
+        in: "path"
+        description: "用户id"
+        required: true
+        type: "integer"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"          
+#购物车  
+  /carts:
+    get:
+      tags:
+      - "customer"
+      summary: "买家获得购物车列表"
+      description: ""
+      operationId: "queryCarts"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: false
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: false
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:  
+                    type: "array"
+                    items:
+                      properties:
+                        product_id:
+                          type: "integer"
+                          description: "加入的货品id"
+                        quantity:
+                          type: "integer"
+                          description: "货品的数量"
+                        price:
+                          type: "integer"
+                          description: "加入单价"
+        '401':
+          description: Unauthorized 未登录
+    
+    post:
+      tags:
+      - "customer"
+      summary: "买家将商品加入购物车"    
+      description: ""
+      operationId: "addToCart"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        description: "可填写的信息"
+        required: true
+        schema:
+          properties:
+            product_id:
+              type: "integer"
+            quantity:
+              type: "integer"
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+          description: Unauthorized 未登录
+    delete:
+      tags:
+      - "customer"
+      summary: "买家清空购物车"
+      description: ""
+      operationId: "clearGoods"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+          description: Unauthorized 未登录
+  /carts/{id}:
+    put:
+      tags:
+      - "customer"
+      summary: "买家修改购物车商品规格"
+      description: ""
+      operationId: "changeCartInfo"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "购物车id"
+        required: true
+        type: "integer"
+      - name: "body"
+        in: "body"
+        description: "可修改的信息"
+        required: true
+        schema:
+          properties:
+            productId:
+              type: "integer"
+            quantity:
+              type: "integer"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在 
+    delete:
+      tags:
+      - "customer"
+      summary: "买家删除购物车中商品"
+      description: "删除任意商品"
+      operationId: "delGoods"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "删除购物车单个商品信息"
+        required: true
+        type: "integer"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在 
+            
+#顾客地址
+  /addresses:
+    post:
+      tags:
+      - "customer"
+      summary: "买家新增地址"    
+      description: "限制每个买家最多有20个地址"
+      operationId: "addAddress"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        description: "地址信息"
+        required: true
+        schema:
+          properties:
+            region_id:
+              type: "integer"
+              description: "地区码"
+            detail:
+              type: "string"
+              description: "详细地址"
+            consignee:
+              type: "string"
+              description: "联系人"
+            mobile:
+              type: "string"
+              description: "电话"
+            default:
+              type: "boolean"
+              description: "设为默认"
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        "601":
+          description: "达到地址簿上限"
+        '401':
+          description: Unauthorized 未登录          
+    get:
+      tags:
+      - "customer"
+      summary: "买家查询所有已有的地址信息"
+      description: ""
+      operationId: "queryAddress"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: true
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: true
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+              errmsg: 
+                type: "string"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:  
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Address"
+        '401':
+          description: Unauthorized 未登录                      
+
+  /addresses/{id}:
+    put:
+      tags:
+      - "customer"
+      summary: "买家修改自己的地址信息"
+      description: ""
+      operationId: "changeAddressInfo"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "地址id"
+        type: "integer"
+        required: true
+      - name: "body"
+        in: "body"
+        description: "可修改的地址信息"
+        required: true
+        schema:
+          properties:
+            regionId:
+              type: "integer"
+            detail:
+              type: "string"
+            consignee:
+              type: "string"
+            mobile:
+              type: "string"
+            default:
+              type: "boolean"
+              description: "设为默认"              
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在  
+    delete:
+      tags:
+      - "customer"
+      summary: "买家删除地址"
+      description: "删除自己的地址"
+      operationId: "delAddress"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "地址id"
+        required: true
+        type: "integer"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在 
+  /coupons:
+    get:
+      tags:
+        - "customer"
+      summary: "买家查看优惠券列表"
+      description: "`买家`查看自己的优惠券列表并获取简要信息"
+      operationId: "showCoupons"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "header"
+          name: "authorization"
+          description: "用户token"
+          required: true
+          type: "string"
+        - name: "beginTime"
+          in: "query"
+          description: "开始时间"
+          type: "string"
+        - name: "endTime"
+          in: "query"
+          description: "结束时间"
+          type: "string"
+        - name: "page"
+          in: "query"
+          description: "页码"
+          type: "integer"
+          required: false
+        - name: "pageSize"
+          in: "query"
+          description: "每页数目"
+          type: "integer"
+          required: false
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:                              
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/SimpleCoupon"
+        '401':
+          description: Unauthorized 未登录  
+  /coupons/{id}:
+     get:
+      tags:
+        - "customer"
+      summary: "买家查看优惠券详细信息"
+      description: "买家查看自己的优惠券并获取详细信息"
+      operationId: "getCouponsById"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "header"
+          name: "authorization"
+          description: "用户token"
+          required: true
+          type: "string"
+        - name: "id"
+          in: "path"
+          required: true
+          type: integer
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                $ref: "#/definitions/Coupon"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在 
+  /couponactivities/{id}/getcoupons:
+    post:
+      tags:
+        - "customer"
+      summary: "买家领取活动优惠券"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "header"
+          name: "authorization"
+          description: "用户token"
+          required: true
+          type: "string"
+        - name: "id"
+          in: "path"
+          description: "活动ID"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        "909":
+          description: "未到优惠卷领取时间"        
+        "910":
+          description: "优惠卷领罄"
+        "911":
+          description: "优惠卷活动终止"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在 
+
+#分享
+  /shares:
+    get:
+      tags:
+      - "share"
+      summary: "买家查询所有分享记录"    
+      description: "买家查询所有分享记录"
+      operationId: "getShares"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "product_id"
+        in: "query"
+        description: "货品id"
+        type: "integer"
+        required: false
+      - name: "beginTime"
+        in: "query"
+        description: "开始时间"
+        type: "string"
+        required: false
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        type: "string"
+        required: false
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: true
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:                
+                    type: "array"
+                    items: 
+                      $ref: "#/definitions/SimpleShare"
+        '401':
+            description: Unauthorized 未登录
+
+  /shares/{shareActId}/products/{id}:
+    get:
+      tags:
+      - "share"
+      summary: "买家查看分享商品的详细信息"
+      description: ""
+      produces:
+      - "application/json"
+      consumes:
+      - "application/json"
+      parameters:
+        - name: "authorization"
+          type: "string"
+          in: "header"
+          description: "用户token"
+          required: true
+        - name: "shareActId"
+          in: "path"
+          description: "分享活动ID"
+          required: true
+          type: "integer"
+        - name: "id"
+          in: "path"
+          description: "货品ID"
+          required: true
+          type: "integer"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+                errno:
+                  type: "integer"
+                  example: 0
+                errmsg: 
+                  type: "string"
+                  example: "成功"
+                data:
+                  $ref: "#/definitions/OnSale"                  
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+    post:
+      tags:
+      - "share"
+      summary: "买家生成分享链接"    
+      operationId: "postShares"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string" 
+      - name: "shareActId"
+        in: "path"
+        description: "分享活动ID"
+        required: true
+        type: "integer"
+      - name: "id"
+        in: "path"
+        description: "货品ID"
+        required: true
+        type: "integer"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+                errno:
+                  type: "integer"
+                  example: 0
+                errmsg: 
+                  type: "string"
+                  example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在        
+  /shops/{shopId}/products/{id}/shares:
+    get:
+      tags:
+      - "share"
+      summary: "商铺查询商品分享记录"    
+      description: "商铺管理员只能查询本店商铺的商品"
+      operationId: "getSharesOfGoods"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "shopId"
+        in: "path"
+        description: "店铺Id"
+        type: "integer"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "货品Id"
+        type: "integer"
+        required: true
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: false
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: false
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:                
+                    type: "array"
+                    items: 
+                      $ref: "#/definitions/Share"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+                
+  /successfulshares:  
+    get:
+      tags:
+      - "share"
+      summary: "买家查询所有分享成功记录"    
+      description: "分享者查询所有分享成功记录"
+      operationId: "getBeShared"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "product_id"
+        in: "query"
+        description: "货品Id"
+        type: "integer"
+        required: false
+      - name: "beginTime"
+        in: "query"
+        description: "开始时间"
+        type: "string"
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        type: "string"        
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: false
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: false
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:                
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/SuccessfulShare"
+        '401':
+            description: Unauthorized 未登录
+               
+  /shops/{shopId}/products/{id}/successfulshares:              
+    get:
+      tags:
+      - "share"
+      summary: "商铺查询商品所有分享成功记录"    
+      description: "管理查询所有分享成功记录"
+      operationId: "getAllBeShared"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "authorization"
+        description: "用户token"
+        required: true
+        type: "string"
+      - name: "shopId"
+        in: "path"
+        description: "店铺Id"
+        type: "integer"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "货品Id"
+        type: "integer"
+        required: true
+      - name: "beginTime"
+        in: "query"
+        description: "开始时间"
+        type: "string"
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        type: "string"        
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: false
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: false
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:                
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/SuccessfulShare"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+
+
+  #售后
+  /aftersales/states:
+    get:
+      tags:
+      - "aftersale"
+      summary: "买家获得售后单的所有状态"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+        - in: "header"
+          name: "authorization"
+          description:  "用户token"
+          required: true
+          type: "string"
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+              errmsg: 
+                type: "string"
+              data:
+                type: "array"
+                items:
+                  $ref: "#/definitions/State"
+        '401':
+            description: Unauthorized 未登录
+
+  /orders/{id}/aftersales:
+    post:
+      tags:
+      - "aftersale"
+      summary: "买家提交售后单"
+      description: ''
+      operationId: "Createaftersale"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "header"
+          name: "authorization"
+          description:  "用户token"
+          required: true
+          type: "string"
+        - name: "id"
+          in: "path"
+          description: "订单id"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "售后服务信息"
+          required: true
+          schema:
+            properties:
+              type: 
+                type: "integer"
+                description: "0换货，1退货, 2维修"
+              quantity:
+                type: "integer"
+              reason:
+                type: "string"
+              region_id:
+                type: "integer"
+              detail:
+                type: "string"
+              consignee:
+                type: "string"
+              mobile:
+                type: "string"
+      responses:
+        "default":
+         description: "成功"
+         schema:
+           type: "object"
+           properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg:
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在  
+  /aftersales:
+    get:
+      tags:
+      - "aftersale"
+      summary: "买家查询所有的售后单信息（可根据售后类型和状态选择）"
+      description: "默认所有，选择按类型或者状态（买家通过这个API只能查询到自己的售后单）"
+      operationId: "queryAllReturnOrder"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        in: "header"
+        type: "string"
+        description: "用户token"
+        required: true
+      - name: "beginTime"
+        in: "query"
+        description: "开始时间"
+        type: "string"
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        type: "string"        
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+      - name: "type"
+        in: "query"
+        description: "售后类型"
+        type: "integer"
+      - name: "state"
+        in: "query"
+        description: "售后状态"
+        type: "integer"
+      responses:
+        "default":
+         description: ""
+         schema:
+           type: "object"
+           properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg:
+                type: "string"
+                example: "成功"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Aftersale"
+        '401':
+            description: Unauthorized 未登录
+
+  /shops/{shopId}/aftersales:
+    get:
+      tags:
+      - "aftersale"
+      summary: "店铺查看所有售后单（可根据售后类型和状态选择）"
+      description: "店铺可查看所有售后单"
+      operationId: "GetAllAfterSales"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        in: "header"
+        type: "string"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        description: "店铺id"
+        type: "integer"
+        required: true
+      - name: "beginTime"
+        in: "query"
+        description: "开始时间"
+        type: "string"
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        type: "string"          
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+      - name: "type"
+        in: "query"
+        description: "售后类型"
+        type: "integer"
+      - name: "state"
+        in: "query"
+        description: "售后状态"
+        type: "integer"
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+              errmsg: 
+                type: "string"
+              data:
+                type: "object"
+                properties:
+                  page:
+                    type: "integer"                  
+                    description: "页码"
+                  pageSize:
+                    description: "每页数目"
+                    type: "integer"
+                  total:
+                    description: "总数"
+                    type: "integer"
+                  pages:
+                    description: "总页数"
+                    type: "integer"
+                  list:  
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Aftersale"
+        '401':
+            description: Unauthorized 未登录
+
+
+  /aftersales/{id}:
+    get:
+      tags:
+      - "aftersale"
+      summary: "买家根据售后单id查询售后单信息"
+      description: "买家通过这个API只能查询到自己的售后单"
+      operationId: "getOneAllAftersaleOrder"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        in: "header"
+        type: "string"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "string"
+        description: "售后单id"
+        required: true
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "object"
+              errmsg: 
+                type: "string"
+              data:
+                $ref: "#/definitions/Aftersale"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在                
+    put:
+      tags:
+      - "aftersale"
+      summary:  "买家修改售后单信息（店家生成售后单前）"
+      description: "在店家生成售后单之前买家可以修改信息，生成之后买家只能进行删除操作"
+      operationId: "changeaftersale"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "string"
+        description: "售后单id"
+        required: true
+      - name: "body"
+        in: "body"
+        description: "买家可修改的信息：地址，售后商品的数量，申请售后的原因，联系人以及联系电话"
+        required: true
+        schema:
+          properties:
+            quantity:
+              type: "integer"
+            reason:
+              type: "string"
+            regionId:
+              type: "integer"
+            detail:
+              type: "string"
+            consignee:
+              type: "string"
+            mobile:
+              type: "string"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+    delete:
+      tags:
+      - "aftersale"
+      summary: "买家取消售后单和逻辑删除售后单"
+      description: "售后单完成之前，买家取消售后单；售后单完成之后，买家逻辑删除售后单"
+      operationId: "deleteAftersales"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "integer"
+        description: "售后单id"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg:
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+  /aftersales/{id}/sendback:
+    put:
+      tags:
+      - "aftersale"
+      summary: "买家填写售后的运单信息"
+      operationId: "sendbackAftersale"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "integer"
+        description: "售后单id"
+        required: true
+      - name: "body"
+        in: "body"
+        description: "运单号"
+        required: true
+        schema:
+          properties:
+            logSn:
+              type: "string"  
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+  /aftersales/{id}/confirm:
+    put:
+      tags:
+      - "aftersale"
+      summary: "买家确认售后单结束"
+      description: "修改售后单状态"
+      operationId: "confirmAftersale"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "integer"
+        description: "售后单id"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+  /shops/{shopId}/aftersales/{id}:
+    get:
+      tags:
+      - "aftersale"
+      summary: "商铺或管理员根据售后单id查询售后单信息"
+      operationId: "getAftersaleOrderByIdAdmin"
+      description: "shopId=0为管理员登陆"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        in: "header"
+        type: "string"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "integer"
+        description: "售后单id"
+        required: true
+      responses:
+        "default":
+          description: ""
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "object"
+              errmsg: 
+                type: "string"
+              data:
+                $ref: "#/definitions/Aftersale"              
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在                
+  /shops/{shopId}/aftersales/{id}/confirm:
+    put:
+      tags:
+      - "aftersale"
+      summary:  "商铺同意/不同意（退款，换货，维修）"
+      operationId: "confirmAftersales"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "integer"
+        description: "售后单id"
+        required: true
+      - name: "body"
+        in: "body"
+        description: "处理意见"
+        required: true
+        schema:
+          properties:
+            confirm:
+              type: "boolean"
+            price:
+              type: "integer"
+              description: "金额"
+            conclusion:
+              type: "string"
+            type: 
+              type: "integer"
+              description: "修改类型，0换货，1退货, 2维修"
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在  
+  /shops/{shopId}/aftersales/{id}/receive:
+    put:
+      tags:
+      - "aftersale"
+      summary:  "店家确认收到买家的退（换）货"
+      description: "如果是退款，则退款给用户，如果换货、维修则等待下一个动作"
+      operationId: "shopConfirmReceive"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "integer"
+        description: "售后单id"
+        required: true
+      - name: "body"
+        in: "body"
+        description: "处理意见"
+        required: true
+        schema:
+          properties:
+            confirm:
+              type: "boolean"
+            conclusion:
+              type: "string"  
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在                 
+  /shops/{shopId}/aftersales/{id}/deliver:
+    put:
+      tags:
+      - "aftersale"
+      summary:  "店家寄出货物"
+      operationId: "deliverAferService"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "id"
+        in: "path"
+        type: "integer"
+        description: "售后单id"
+        required: true
+      - name: "body"
+        in: "body"
+        description: "运单号"
+        required: true
+        schema:
+          properties:
+            shopLogSn:
+              type: "string" 
+              description: "维修寄出运单号"  
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在 
+  #清算
+  /liquidation/{liquidDate}/points:
+    get:
+      tags:
+      - "liquidation"
+      summary: "顾客查看清算返回积点流水"
+      operationId: "getLiquidationPoint"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "liquidDate"
+        in: "path"
+        type: "integer"
+        description: "清算的日期"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              point:
+                type: "integer"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+        
+        
+  /shops/{shopId}/liquidation:
+    get:
+      tags:
+      - "liquidation"
+      summary:  "店家查看清算单"
+      description: "此api仅开放给店家使用，管理员使用下一个api"
+      operationId: "getLiquidation"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "beginTime"
+        in: "query"
+        description: "开始时间"
+        type: "string"
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        type: "string"
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: false
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: false        
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              page:
+                type: "integer"                  
+                description: "页码"
+              pageSize:
+                description: "每页数目"
+                type: "integer"
+              total:
+                description: "总数"
+                type: "integer"
+              pages:
+                description: "总页数"
+                type: "integer"            
+              data:
+                $ref: "#/definitions/Simpleliquidation"
+        '401':
+            description: Unauthorized 未登录
+
+  /shops/{shopId}/liquidation/{id}:
+    get:
+      tags:
+      - "liquidation"
+      summary:  "店家或管理员查看清算单详情"
+      description: "shopId为0表示管理员"
+      operationId: "getLiquidationById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "清算单id"
+        type: "integer"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                $ref: "#/definitions/liquidation"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在             
+  /shops/{shopId}/revenues:
+     get:
+      tags:
+      - "liquidation"
+      summary:  "店家查看进账单"
+      operationId: "getrevenues"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "beginTime"
+        in: "query"
+        description: "开始时间"
+        type: "string"
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        type: "string"
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: false
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: false        
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              page:
+                type: "integer"                  
+                description: "页码"
+              pageSize:
+                description: "每页数目"
+                type: "integer"
+              total:
+                description: "总数"
+                type: "integer"
+              pages:
+                description: "总页数"
+                type: "integer"   
+              data:
+                $ref: "#/definitions/Simplerevenue_item"
+        '401':
+            description: Unauthorized 未登录
+            
+  /shops/{shopId}/revenues/{id}:
+    get:
+      tags:
+      - "liquidation"
+      summary:  "店家或管理员查看进账单详情"
+      operationId: "getRevenueById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "进账单id"
+        type: "integer"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                $ref: "#/definitions/revenue_item"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+  /shops/{shopId}/revenues/{rid}/orders/{id}:
+    get:
+      tags:
+      - "liquidation"
+      summary:  "店家或管理员通过进账单查看订单详情"
+      description: "通过查询订单详情，可以查看对应的商品"
+      operationId: "getordersByRId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "rid"
+        in: "path"
+        description: "进账单id"
+        type: "integer"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "订单id"
+        type: "integer"
+        required: true        
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                $ref: "#/definitions/OrderInfo"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在
+  /shops/{shopId}/expenditures:
+     get:
+      tags:
+      - "liquidation"
+      summary:  "店家查看出账单"
+      operationId: "getexpenditures"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "beginTime"
+        in: "query"
+        description: "开始时间"
+        type: "string"
+      - name: "endTime"
+        in: "query"
+        description: "结束时间"
+        type: "string"
+      - name: "page"
+        in: "query"
+        description: "页码"
+        type: "integer"
+        required: false
+      - name: "pageSize"
+        in: "query"
+        description: "每页数目"
+        type: "integer"
+        required: false        
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              page:
+                type: "integer"                  
+                description: "页码"
+              pageSize:
+                description: "每页数目"
+                type: "integer"
+              total:
+                description: "总数"
+                type: "integer"
+              pages:
+                description: "总页数"
+                type: "integer"   
+              data:
+                $ref: "#/definitions/Simpleexpenditure_item"
+        '401':
+            description: Unauthorized 未登录
+  /shops/{shopId}/expenditures/{id}:
+    get:
+      tags:
+      - "liquidation"
+      summary:  "店家或管理员查看出账单详情"
+      operationId: "getExpenditureById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "出账单id"
+        type: "integer"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                $ref: "#/definitions/expenditure_item"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在  
+            
+  /shops/{shopId}/expenditures/{eid}/orders/{id}:
+    get:
+      tags:
+      - "liquidation"
+      summary:  "店家或管理员通过出账单查看订单详情"
+      description: "通过查询订单详情，可以查看对应的商品"
+      operationId: "getordersByEId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "shopId"
+        in: "path"
+        type: "integer"
+        description: "店铺id"
+        required: true
+      - name: "eid"
+        in: "path"
+        description: "出账单id"
+        type: "integer"
+        required: true
+      - name: "id"
+        in: "path"
+        description: "订单id"
+        type: "integer"
+        required: true        
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+              data:
+                $ref: "#/definitions/OrderInfo"
+        '401':
+            description: Unauthorized 未登录
+        '404':
+            description: 操作的id不存在            
+  /liquidation/{checkDate}:
+    post:
+      tags:
+      - "liquidation"
+      summary:  "系统内部自动进行清算"
+      operationId: "liquidation"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorization"
+        type: "string"
+        in: "header"
+        description: "用户token"
+        required: true
+      - name: "checkDate"
+        in: "path"
+        type: "string"
+        description: "对账日期"
+        required: true
+      - name: "refundId"
+        in: "query"
+        description: "退款单id"
+        type: "integer"
+        required: true
+      - name: "paymentId"
+        in: "query"
+        description: "支付单id"
+        type: "integer"
+        required: true
+      responses:
+        "default":
+          description: "成功"
+          schema:
+            type: "object"
+            properties:
+              errno:
+                type: "integer"
+                example: 0
+              errmsg: 
+                type: "string"
+                example: "成功"
+
+definitions:
+  SimpleCustomer:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      userName:
+        type: "string"
+      mobile:
+        type: "string"
+      email:
+        type: "string"
+      state:
+        type: "integer"
+        description: "状态"   
+        
+  Customer:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      userName:
+        type: "string"
+      password:
+        type: "string"
+      realName:
+        type: "string"
+      mobile:
+        type: "string"
+      email:
+        type: "string"
+      state:
+        type: "integer"
+        description: "状态"   
+      point:
+        type: "integer"
+        description: "返点"   
+  
+  liquidation:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      shop_id:
+        type: "integer"
+      liquid_date:
+        type: "string"
+      express_fee:
+        type: "integer"
+      commission:
+        type: "integer"
+      shop_revenue:
+        type: "integer"
+      point:
+        type: "integer"
+      tax:
+        type: "integer"
+      state:
+        type: "boolean"
+        
+  Simpleliquidation:
+    type: "object"
+    properties:
+      liquid_date:
+        type: "string"
+      shop_revenue:
+        type: "integer"
+      tax:
+        type: "integer"
+      state:
+        type: "boolean"
+  
+  revenue_item:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      liquid_id:
+        type: "integer"
+      payment_id:
+        type: "integer"
+      check_data:
+        type: "string"
+      shopId:
+        type: "integer"
+      orderId:
+        type: "integer"
+      orderitemId:
+        type: "integer"
+      amount:
+        type: "integer"
+      expressFee:
+        type: "integer"
+      commission:
+        type: "number"
+      point:
+        type: "number"
+      shareId:
+        type: "integer"
+      shop_revenue:
+        type: "number"
+      tax:
+        type: "number"
+
+  Simplerevenue_item:
+    type: "object"
+    properties:
+      check_data:
+        type: "string"
+      amount:
+        type: "integer"
+      expressFee:
+        type: "integer"
+      commission:
+        type: "number"
+      shop_revenue:
+        type: "number"
+      tax:
+        type: "number"
+  
+  expenditure_item:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      liquidId:
+        type: "integer"
+      refundId:
+        type: "integer"
+      checkData:
+        type: "string"
+      shopId:
+        type: "integer"
+      revenueId:
+        type: "integer"
+      amount:
+        type: "integer"
+      expressFee:
+        type: "integer"
+      commission:
+        type: "number"
+      point:
+        type: "number"
+      shareId:
+        type: "integer"
+      shop_revenue:
+        type: "number"
+      tax:
+        type: "number"
+  
+  Simpleexpenditure_item:
+    type: "object"
+    properties:
+      checkData:
+        type: "string"
+      amount:
+        type: "integer"
+      expressFee:
+        type: "integer"
+      commission:
+        type: "number"
+      shop_revenue:
+        type: "number"
+      tax:
+        type: "number"
+
+  Cart:
+    type: "object"
+    properties:
+      customerId:
+        type: "integer"
+      productId:
+        type: "integer"
+      quantity:
+        type: "integer"
+      price:
+        type: "integer"
+        description: "商品被加入购物车时的价格"
+        
+  Address:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      regionId:
+        type: "integer"
+      detail:
+        type: "string"
+      consignee:
+        type: "string"
+      mobile:
+        type: "string"
+      default:
+        type: "boolean"
+ 
+        
+  Share:
+    description: "分享结果"
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      sharerId:
+        type: "integer"
+      shareAct:
+        type: "integer"
+      onsaleId:
+        type: "integer"
+        description: "货品上架id"
+      quantity:
+        type: "integer"
+        description: "成功返点的商品件数"
+      state:
+        type: "boolean"
+  
+  SimpleShare:
+    type: "object"
+    properties:
+      shareAct:
+        type: "integer"
+      quantity:
+        type: "integer"
+        description: "成功返点的商品件数"
+      state:
+        type: "boolean"
+        
+  SuccessfulShare:
+    description: "分享成功"
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      sharerId:
+        type: "integer"
+      customerId:
+        type: "integer"
+      state:
+        type: "integer"
+  
+
+  
+  Aftersale:
+    description: "售后服务"
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      orderId:
+        type: "integer"
+      orderItemId:
+        type: "integer"
+      customerId:
+        type: "integer"
+      shopId:
+        type: "string"
+      serviceSn:
+        type: "string"
+      type:
+        type: "integer"
+        description: "0换货，1退货，2维修"
+      reason:
+        type: "string"
+      conclusion:
+        type: "string"
+      price:
+        type: "integer"
+        description: "金额(正数为支付，负数为退款)"
+      quantity:
+        type: "integer"
+        description: "货物数量"
+      regionId:
+        type: "integer"
+      detail:
+        type: "string"
+        description: "详细地址"
+      consignee:
+        type: "string"
+      mobile:
+        type: "string"
+      customerLogSn:
+        type: "string"
+        description: "寄回运单号"
+      shopLogSn:
+        type: "string"
+        description: "寄出运单号"  
+      state: 
+        type: "integer"
+        
+  State:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        description: "状态码"
+      name: 
+        type: "string"
+        description: "状态描述"
+        
+  Coupon:
+    type: "object"
+    description: "优惠卷"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "优惠卷id"
+      couponSn:
+        type: "string"
+        description: "优惠券编号"
+      name:
+        type: "string"
+        description: "优惠券名称"
+      customerId:
+        type: "integer"
+        format: "int64"
+        description: "顾客ID"
+      activityId:
+        type: "integer"
+        description: "优惠活动ID"
+      beginTime:
+        type: "string"
+        format: "datetime"
+        description: "活动开始时间"
+      endTime:
+        type: "string"
+        format: "datetime"
+        description: "活动结束时间"
+      state:
+        type: "integer"
+        description: "优惠卷状态：1 已领取 2 已使用 3 已失效"
+        
+  SimpleCoupon:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "优惠卷id"
+      couponSn:
+        type: "string"
+        description: "优惠券编号"
+      name:
+        type: "string"
+        description: "优惠券名称"
+      beginTime:
+        type: "string"
+        format: "datetime"
+        description: "活动开始时间"
+      endTime:
+        type: "string"
+        format: "datetime"
+        description: "活动结束时间"
+      state:
+        type: "integer"
+        description: "优惠卷状态：1 已领取 2 已使用 3 已失效"
+
+  Product:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      productId:
+        type: "integer"
+        format: "int64"
+      skuSn:
+        type: "string"
+        description: "SKU序号"
+      name:
+        type: "string"
+        description: "货品名称"
+      originalPrice:
+        type: "integer"
+        description: "原价(单位分)"
+      weight:
+        type: "integer"
+        description: "重量（单位克）"
+      imageUrl:
+        type: "string"
+        description: "图片链接"
+      state:
+        type: "integer"
+        description: "商品状态"  
+      unit:
+        type: "string"
+        description: "单位"
+      barCode:
+        type: "string"
+        description: "条码"
+      originPlace:
+        type: "string"
+        description: "产地"
+
+  OnSale:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "id"
+      shop:
+        $ref: "#/definitions/SimpleShop"
+      product:
+        $ref: "#/definitions/SimpleProduct"
+      price:
+        type: "integer"
+        format: "int64"
+        description: "价格（单位分）"
+      beginTime:
+        type: "string"
+        format: "datetime"
+        description: "开始时间"
+      endTime:
+        type: "string"
+        format: "datetime"
+        description: "结束时间"
+      quantity:
+        type: "integer"
+        format: "int64"
+        description: "可销售的数量"
+      type:
+        type: "integer"
+        format: "int32"
+        description: "0为无活动，1为秒杀，2为团购，3为预售"
+      activityId:
+        type: "integer"
+        format: "int64"
+        description: "团购或预售活动id"
+      shareActId:
+        type: "integer"
+        format: "int64"
+        description: "分享活动id"
+      createdBy:
+        $ref: "#/definitions/SimpleAdminUser"
+      gmtCreate:
+        type: "string"
+        format: "datetime"
+        description: "创建时间"
+      gmtModified:
+        type: "string"
+        format: "datetime"
+        description: "修改时间"
+      modifiedBy:
+        $ref: "#/definitions/SimpleAdminUser" 
+        
+  SimpleAdminUser:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      userName:
+        type: "string"
+
+  SimpleProduct:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Product ID"
+      name:
+        type: "string"
+      imageUrl:
+        type: "string"
+        description: "图片链接"
+        
+  SimpleShop:
+    type: "object"
+    properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string" 
+
+  SimpleCouponActivity:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "活动id"
+      name:
+        type: "string"
+        description: "优惠活动名称"
+      imageUrl:
+        type: "string"
+        description: "图片链接"  
+      beginTime:
+        type: "string"
+        format: "datetime"
+        description: "活动开始时间"
+      endTime:
+        type: "string"
+        format: "datetime"
+        description: "活动结束时间"  
+      quantity:
+        type: "integer"
+        format: "int32"
+        description: "优惠券数目，0-不用优惠券"
+      couponTime:
+        type: "string"
+        format: "datetime"
+        description: "开始领优惠卷时间"  
+          
+  OrderItem:
+    description: "订单明细"
+    type: "object"
+    properties:
+      productId:
+        description: "货品 id"
+        type: "integer"
+        format: "int64"
+      orderId:
+        description: "订单id"
+        type: "integer"
+        format: "int64"
+      name:
+        description: "商品被下单时的名称"
+        type: "string"
+      quantity:
+        description: "订购数量"
+        type: "integer"
+        format: "int32"
+      price:
+        description: "下单时商品单价"
+        type: "integer"
+        format: "int64"
+      discountPrice:
+        description: "优惠后单价"
+        type: "integer"
+        format: "int64"
+      couponAct:
+        $ref: "#/definitions/SimpleCouponActivity"
+      coupon:
+        $ref: "#/definitions/Coupon"
+
+          
+  OrderInfo:
+    description: "订单的完整信息"
+    type: "object"
+    properties:
+      id:
+        description: "订单id"
+        type: "integer"
+        format: "int64"
+      orderSn:
+        description: "订单序号"
+        type: "string"
+      customer:
+        $ref: "#/definitions/SimpleCustomer"
+      shop:
+        $ref: "#/definitions/SimpleShop"
+      pid:
+        description: "母单id"
+        type: "integer"
+        format: "int64"
+      orderType:
+        description: "订单的类别"
+        type: "integer"
+        format: "int32"
+      state:
+        description: "订单状态"
+        type: "integer"
+        format: "int32"
+      subState:
+        description: "订单子状态"
+        type: "integer"
+        format: "int32"
+      gmtCreate:
+        description: "订单创建时间"
+        type: "string"
+      gmtModified:
+        description: "订单修改时间"
+        type: "string"
+      confirmTime:
+        description: "订单发货时间"
+        type: "string"
+      originPrice:
+        description: "订单商品优惠前价格"
+        type: "integer"
+        format: "int64"
+      discountPrice:
+        description: "订单优惠价格"
+        type: "integer"
+        format: "int64"
+      freightPrice:
+        description: "运费"
+        type: "integer"
+        format: "int64"
+      rebateNum:
+        description: "返给分享者的点数"
+        type: "integer"
+        format: "int64"  
+      message:
+        description: "附言"
+        type: "string"
+      regionId:
+        description: "收货地区"
+        type: "integer"
+      address:
+        description: "详细地址"
+        type: "string"
+      mobile:
+        description: "电话"
+        type: "string"
+      consignee:
+        description: "收货人"
+        type: "string"
+      couponId:
+        description: "使用的优惠卷id"
+        type: "integer"
+        format: "int64"
+      grouponId:
+        description: "团购活动id"
+        type: "integer"
+        format: "int64"
+      presaleId:
+        description: "预售活动id"
+        type: "integer"
+        format: "int64"    
+      shipmentSn:
+        description: "快递单号"
+        type: "string"
+      orderItems:
+        description: "所有订单内容物的完整信息"
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderItem"          
+          
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /XMU7/OOMALL/1.0.0
+schemes:
+ - https

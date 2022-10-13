@@ -1,0 +1,2 @@
+DestroyOneLineSqare()函数为消行；
+里面含清除消行后小方块的代码。

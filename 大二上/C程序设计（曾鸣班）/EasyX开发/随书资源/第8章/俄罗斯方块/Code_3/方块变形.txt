@@ -1,0 +1,13 @@
+OnChangeSqare()函数是变形的主函数，判断什么图形然后执行不同的变形方式。
+ChangeSqare();//除长条和正方形外的变形
+ChangeLineSqare();//长条变形
+int CanSqareChangeShape();//解决变形bug
+int CanLineSqareChange();//解决长条变形bug
+int CanSqareDown();//若返回0继续下降，返回1则代表到底，不下降
+int CanSqareDown2();//若返回0继续下降，返回1则代表到底，不下降,与方块相遇
+int CanSqareLeft();//若返回0继续左移，返回1则代表到最左边，不再左移
+int CanSqareLeft2();//若返回0继续左移，返回1则代表到最左边，不再左移，与方块相遇
+int CanSqareRight();//若返回0继续右移，返回1则代表到最右边，不再右移
+int CanSqareRight2();//若返回0继续右移，返回1则代表到最右边，不再右移，与方块相遇
+
+int 函数是判断是否可以变形的一系列函数

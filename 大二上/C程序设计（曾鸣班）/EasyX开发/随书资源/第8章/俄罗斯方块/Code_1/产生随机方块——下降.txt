@@ -1,0 +1,2 @@
+CreateRandonSqare()函数产生随机方块， CopySqareToBack()函数将方块数组贴入背景数组，SqareDown()函数实现方块下降。
+

@@ -1,0 +1,49 @@
+2.1
+constructing base class
+constructing sub class
+destructing sub class
+destructing base class
+
+2.2
+constructing base class
+n=1
+constructing base class
+n=3
+constructing sub cass
+m=2
+destructing sub class
+destructing base class
+destructing base class
+
+2.3
+10,20
+
+2.4
+constructing base class
+n=1
+constructing sub class
+m=2
+destructing sub class
+destructing base class
+
+2.5
+x=3 y=5
+x=4 y=5
+x=2 y=3
+
+2.6
+constructing class A
+constructing class B1
+constructing class A
+constructing class B2
+constructing class C
+1
+2
+3
+4
+5
+destructing class C
+destructing class B2
+destructing class A
+destructing class B1
+destructing class A

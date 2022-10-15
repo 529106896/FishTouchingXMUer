@@ -1,0 +1,23 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+    double a, b;
+    cout << "请输入两个数字：";
+    cin >> a >> b;
+    cout << "他们的和是：" << a + b << endl;
+    cout << "他们的差是：" << a - b << endl;
+    cout << "他们的乘积是：" << a * b << endl;
+    if(b == 0)
+    {
+      cout << "除数不能为0！商运算无法进行！" << endl;
+      cout << "请更换除数：";
+      cin >> b;
+    }
+    cout << setiosflags(ios::fixed) << setprecision(2) << "他们的商是：" << a / b << endl;
+    system("pause");
+    return 0;
+}

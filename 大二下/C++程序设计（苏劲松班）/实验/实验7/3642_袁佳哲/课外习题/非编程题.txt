@@ -1,0 +1,31 @@
+概念填空题
+
+（1）	公有成员 保护成员 不可直接访问成员
+	保护成员 保护成员 不可直接访问成员
+
+（2）	调用基类构造函数——调用成员对象类构造函数——调用派生类构造函数
+
+选择题
+（1）D
+（2）A
+（3）C
+（4）B
+（5）D
+（6）C
+（7）B
+（8）D
+
+5.
+（1）
+constructing B1 1
+constructing B3 *
+constructing B1 2
+constructing B3 *
+destructing B3
+destructing B1
+destructing B3
+destructing B1
+
+（2）
+B::f1
+B::f1

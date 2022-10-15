@@ -1,0 +1,57 @@
+1）
+不是C++关键字的有：
+integer、If、external
+
+
+2）
+属于C++基本数据类型的有：
+bool、char、double、float、int、string
+
+
+3）
+不是。0开头的会被认为是八进制数字，但0238是无效的八进制数字，所以不合法
+
+
+4）
+错误1：没写using namespace std;
+错误2：	cout<<endl;这一行虽然合法，但等效于空语句，怎么都不输出
+	<<“Hello World”;前一行错误的加了endl，这一行会报错
+	<<endl;报错
+错误3：main函数无返回值
+
+修改：
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	cout << "Hello World" << endl;
+	return 0;
+}
+
+补充：在一些编译器里，比如vscode，最好在return 0前再加一行system("pause");
+
+
+5）
+1,0,0
+
+
+6）
+2
+
+
+7）
+40
+
+
+8）
+9,10
+
+
+9）
+#*#*#（结尾不换行）
+
+
+10）
+3 5 7 11 13 17 19 （结尾不换行）

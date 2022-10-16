@@ -1,0 +1,6 @@
+{"name":"${name}",
+ "id":"${id}",
+ "major":"软件工程"
+ "age":${age},
+ "gender":"${gender}"
+}

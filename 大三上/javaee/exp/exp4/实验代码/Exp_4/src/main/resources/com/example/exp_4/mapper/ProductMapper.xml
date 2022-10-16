@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.exp_4.mapper.ProductMapper">
+
+    <resultMap id="ProductWithGoodsMap" type="ProductPo" autoMapping="true">
+        <id property="id" column="id"/>
+        <collection property="goodsPoList" ofType="com.example.exp_4.model.GoodsPo">
+            <id property="id" column="goods_id"/>
+            <result property="name" column="goods_name"/>
+            <result property="goodsSn" column="goods_sn"/>
+            <result property="imageUrl" column="goods_image_url"/>
+            <result property="gmtCreate" column="goods_gmt_create"/>
+            <result property="gmtModified" column="goods_gmt_modified"/>
+            <result property="disabled" column="goods_disabled"/>
+        </collection>
+    </resultMap>
+
+    <select id="findProduct" parameterType="ProductPo" resultMap="ProductWithGoodsMap">
+        select p.id as id,
+               p.name,
+               p.product_sn,
+               p.detail,
+               p.image_url,
+               p.state,
+               p.disabled,
+               p.original_price,
+               p.weight,
+               p.gmt_create,
+               p.gmt_modified,
+               g.id as goods_id,
+               g.name as goods_name,
+               g.goods_sn as goods_sn,
+               g.image_url as goods_image_url,
+               g.gmt_create as goods_gmt_create,
+               g.gmt_modified as goods_gmt_modified,
+               g.disabled as goods_disabled
+        from product p left join goods g
+        on p.goods_id = g.id
+        where p.id = #{id}
+    </select>
+
+    <select id="findGoods" parameterType="GoodsPo" resultType="GoodsPo">
+        select id,
+               name,
+               brand_id,
+               category_id,
+               freight_id,
+               shop_id,
+               goods_sn,
+               detail,
+               image_url,
+               disabled,
+               gmt_create,
+               gmt_modified
+        from goods
+        where id = #{id}
+    </select>
+
+</mapper>

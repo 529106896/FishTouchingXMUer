@@ -1,0 +1,50 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 8080
+
+spring:
+  boot:
+    client:
+      url: http://localhost:8081
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/databaseforexp2?serverTimezone=GMT%2B8
+    username: mybaby
+    password: 12345678
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialization-mode: always
+    druid:
+      initial-size: 3
+      min-idle: 3
+      max-active: 300
+      max-wait: 60000
+      stat-view-servlet:
+        login-username: admin
+        login-password: 123456
+        enabled: true
+        url-pattern: /druid/*
+
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 100
+
+      validation-query: select 1
+
+  sql:
+    init:
+      encoding: utf-8
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis:
+  type-aliases-package: com.example.exp_2.model
+  mapper-locations: classpath:com.example.exp_2.mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

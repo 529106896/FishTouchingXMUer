@@ -1,0 +1,7 @@
+﻿  test2.cpp
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test2.cpp(34,34): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test2.cpp(35,34): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test2.cpp(18,6): warning C4101: “i”: 未引用的局部变量
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test2.cpp(46,1): warning C4326: “main”的返回类型应为“int”而非“void”
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test2.cpp(47,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+  Graphics_lab2.vcxproj -> C:\Users\529106896\source\repos\Graphics_lab2\x64\Debug\Graphics_lab2.exe

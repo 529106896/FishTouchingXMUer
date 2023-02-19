@@ -1,0 +1,32 @@
+﻿  exp6.cpp
+C:\Users\529106896\source\repos\lab6\packages\Eigen.3.3.3\build\native\include\Eigen\src\Core\arch\CUDA\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+C:\Users\529106896\source\repos\lab6\lab6\raytracer.hpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+C:\Users\529106896\source\repos\lab6\lab6\raytracer.hpp(12,13): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab6\lab6\raytracer.hpp(45,38): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\raytracer.hpp(89,22): warning C4244: “参数”: 从“double”转换到“const float”，可能丢失数据
+C:\Users\529106896\source\repos\lab6\lab6\raytracer.hpp(88,22): warning C4244: “参数”: 从“double”转换到“const float”，可能丢失数据
+C:\Users\529106896\source\repos\lab6\lab6\raytracer.hpp(87,49): warning C4244: “参数”: 从“double”转换到“const float”，可能丢失数据
+C:\Users\529106896\source\repos\lab6\lab6\raytracer.hpp(129,22): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab6\lab6\raytracer.hpp(164,31): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(17,21): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(17,44): warning C4305: “参数”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(18,21): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(18,41): warning C4305: “参数”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(19,21): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(19,42): warning C4305: “参数”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(23,34): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(24,34): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(30,35): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(31,35): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(37,35): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(43,35): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(48,25): warning C4305: “参数”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(52,37): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(53,37): warning C4305: “参数”: 从“double”到“const float”截断
+C:\Users\529106896\source\repos\lab6\lab6\exp6.cpp(56,25): warning C4305: “参数”: 从“double”到“float”截断
+  正在生成代码
+  1 of 902 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  lab6.vcxproj -> C:\Users\529106896\source\repos\lab6\Release\lab6.exe

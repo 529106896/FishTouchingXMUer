@@ -1,0 +1,9 @@
+﻿  lab7_1.cpp
+C:\Users\529106896\source\repos\lab7\lab7\lab7_1.cpp(39,1): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\lab7\lab7\lab7_1.cpp(64,31): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\lab7\lab7\lab7_1.cpp(65,31): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\lab7\lab7\lab7_1.cpp(122,45): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab7\lab7\lab7_1.cpp(123,45): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab7\lab7\lab7_1.cpp(127,37): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab7\lab7\lab7_1.cpp(128,37): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  lab7.vcxproj -> C:\Users\529106896\source\repos\lab7\Debug\lab7.exe

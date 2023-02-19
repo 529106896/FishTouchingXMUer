@@ -1,0 +1,6 @@
+﻿  test1.cpp
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test1.cpp(29,33): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test1.cpp(30,33): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test1.cpp(17,6): warning C4101: “i”: 未引用的局部变量
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test1.cpp(38,1): warning C4326: “main”的返回类型应为“int”而非“void”
+LINK : fatal error LNK1104: 无法打开文件“freeglut.lib”

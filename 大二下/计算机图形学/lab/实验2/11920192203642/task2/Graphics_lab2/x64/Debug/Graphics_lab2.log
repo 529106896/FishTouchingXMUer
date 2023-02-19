@@ -1,0 +1,20 @@
+﻿  test4.cpp
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(25,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(39,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(43,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(52,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(56,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(60,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(66,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(70,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(74,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(79,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(83,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(101,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(137,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(141,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(151,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(170,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(176,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+C:\Users\529106896\source\repos\Graphics_lab2\Graphics_lab2\test4.cpp(180,25): warning C4305: “参数”: 从“double”到“GLfloat”截断
+  Graphics_lab2.vcxproj -> C:\Users\529106896\source\repos\Graphics_lab2\x64\Debug\Graphics_lab2.exe

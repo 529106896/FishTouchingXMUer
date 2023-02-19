@@ -1,0 +1,3 @@
+﻿  lab3_1.cpp
+C:\Users\529106896\source\repos\lab3\lab3\lab3_1.cpp(122,55): warning C4305: “初始化”: 从“double”到“GLfloat”截断
+  lab3.vcxproj -> C:\Users\529106896\source\repos\lab3\x64\Debug\lab3.exe

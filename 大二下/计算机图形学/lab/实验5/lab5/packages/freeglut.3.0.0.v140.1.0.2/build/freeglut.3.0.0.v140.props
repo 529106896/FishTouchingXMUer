@@ -1,0 +1,39 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- C++ project configuration options-->
+	<ItemDefinitionGroup>  
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)\..\sources\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)\..\runtimes\win-$(PlatformTarget)\native\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+	<Link>
+	  <AdditionalDependencies>freeglutd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	</Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+	<Link>
+	  <AdditionalDependencies>freeglutd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	</Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+	<Link>
+	  <AdditionalDependencies>freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	</Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+	<Link>
+	  <AdditionalDependencies>freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	</Link>  
+  </ItemDefinitionGroup>
+  
+  <Target Name="Copy native freeglut references" AfterTargets="AfterBuild">
+    <ItemGroup>
+      <!-- Files to copy to target directory -->
+      <SourceFiles Include="$(MSBuildThisFileDirectory)\..\runtimes\win-$(PlatformTarget)\native\$(Configuration)\*.dll"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles-&gt;'$(TargetDir)%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

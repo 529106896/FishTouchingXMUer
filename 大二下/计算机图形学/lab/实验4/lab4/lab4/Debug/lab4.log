@@ -1,0 +1,16 @@
+﻿  exp4.cpp
+C:\Users\529106896\source\repos\lab4\packages\Eigen.3.3.3\build\native\include\Eigen\src\Core\arch\CUDA\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+C:\Users\529106896\source\repos\lab4\lab4\MyTransform.hpp(23,15): warning C4305: “=”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab4\lab4\MyTransform.hpp(23,33): warning C4305: “=”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab4\lab4\MyTransform.hpp(24,15): warning C4305: “=”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab4\lab4\MyTransform.hpp(54,20): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\529106896\source\repos\lab4\lab4\MyTransform.hpp(70,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab4\lab4\MyTransform.hpp(94,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab4\lab4\MyTransform.hpp(118,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab4\lab4\MyTransform.hpp(168,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+C:\Users\529106896\source\repos\lab4\lab4\exp4.cpp(23,30): warning C4305: “=”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab4\lab4\exp4.cpp(24,30): warning C4305: “=”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab4\lab4\exp4.cpp(42,15): warning C4305: “+=”: 从“double”到“float”截断
+C:\Users\529106896\source\repos\lab4\lab4\exp4.cpp(63,39): warning C4305: “参数”: 从“double”到“GLclampf”截断
+C:\Users\529106896\source\repos\lab4\lab4\exp4.cpp(94,20): warning C4018: “<”: 有符号/无符号不匹配
+  lab4.vcxproj -> C:\Users\529106896\source\repos\lab4\Debug\lab4.exe

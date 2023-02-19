@@ -1,0 +1,11 @@
+﻿  源.cpp
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(40,57): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(40,38): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(47,57): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(47,38): warning C4244: “参数”: 从“double”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(95,17): warning C4244: “=”: 从“GLdouble”转换到“int”，可能丢失数据
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(96,17): warning C4244: “=”: 从“GLdouble”转换到“int”，可能丢失数据
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(130,34): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(131,34): warning C4244: “=”: 从“int”转换到“GLfloat”，可能丢失数据
+C:\Users\529106896\source\repos\lab7_face\lab7_face\源.cpp(143,1): warning C4326: “main”的返回类型应为“int”而非“void”
+  lab7_face.vcxproj -> C:\Users\529106896\source\repos\lab7_face\Debug\lab7_face.exe

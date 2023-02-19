@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="Eigen_init">
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkage-Eigen Condition="'$(Linkage-Eigen)' == ''">dynamic</Linkage-Eigen>
+    <CallingConvention-Eigen Condition="'$(CallingConvention-Eigen)' == ''">cdecl</CallingConvention-Eigen>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>HAS_EIGEN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <UsingTask TaskName="Eigen_Contains" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
+    <ParameterGroup>
+      <Text Output="false" ParameterType="System.String" />
+      <Library Output="false" Required="true" ParameterType="System.String" />
+      <Value Output="false" Required="true" ParameterType="System.String" />
+      <Result Output="true" ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code>Result = ((Text ?? "").Split(';').Contains(Library) ) ? Value : String.Empty;</Code>
+    </Task>
+  </UsingTask>
+  <Target Name="Eigen_init">
+    <Eigen_Contains Text="Linkage-dynamic" Library="Eigen" Value="dynamic" Condition="'$(Linkage-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-Eigen" />
+    </Eigen_Contains>
+    <Eigen_Contains Text="Linkage-static" Library="Eigen" Value="static" Condition="'$(Linkage-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-Eigen" />
+    </Eigen_Contains>
+    <Eigen_Contains Text="Linkage-ltcg" Library="Eigen" Value="ltcg" Condition="'$(Linkage-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-Eigen" />
+    </Eigen_Contains>
+    <Eigen_Contains Text="Linkage-sxs" Library="Eigen" Value="sxs" Condition="'$(Linkage-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-Eigen" />
+    </Eigen_Contains>
+    <Eigen_Contains Text="CallingConvention-cdecl" Library="Eigen" Value="cdecl" Condition="'$(CallingConvention-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-Eigen" />
+    </Eigen_Contains>
+    <Eigen_Contains Text="CallingConvention-stdcall" Library="Eigen" Value="stdcall" Condition="'$(CallingConvention-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-Eigen" />
+    </Eigen_Contains>
+    <Eigen_Contains Text="CallingConvention-fastcall" Library="Eigen" Value="fastcall" Condition="'$(CallingConvention-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-Eigen" />
+    </Eigen_Contains>
+    <Eigen_Contains Text="CallingConvention-thiscall" Library="Eigen" Value="thiscall" Condition="'$(CallingConvention-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-Eigen" />
+    </Eigen_Contains>
+    <Eigen_Contains Text="CallingConvention-clrcall" Library="Eigen" Value="clrcall" Condition="'$(CallingConvention-Eigen)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-Eigen" />
+    </Eigen_Contains>
+  </Target>
+</Project>

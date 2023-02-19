@@ -1,0 +1,23 @@
+﻿  exp5.cpp
+C:\Users\529106896\source\repos\lab5\packages\Eigen.3.3.3\build\native\include\Eigen\src\Core\arch\CUDA\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(21,15): warning C4305: “=”: 从“double”到“float”截断
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(21,33): warning C4305: “=”: 从“double”到“float”截断
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(22,15): warning C4305: “=”: 从“double”到“float”截断
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(46,20): warning C4018: “<”: 有符号/无符号不匹配
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(70,12): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(78,12): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(100,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(116,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(133,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(170,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(236,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(238,11): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(240,10): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\MyTransform.hpp(241,10): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\exp5.cpp(45,15): warning C4305: “+=”: 从“double”到“float”截断
+E:\lesson\大二下\图形学\第五次试验\exp5.cpp(49,39): warning C4305: “参数”: 从“double”到“float”截断
+E:\lesson\大二下\图形学\第五次试验\exp5.cpp(66,39): warning C4305: “参数”: 从“double”到“GLclampf”截断
+E:\lesson\大二下\图形学\第五次试验\exp5.cpp(96,20): warning C4018: “<”: 有符号/无符号不匹配
+E:\lesson\大二下\图形学\第五次试验\exp5.cpp(122,22): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\lesson\大二下\图形学\第五次试验\exp5.cpp(122,19): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+  lab5.vcxproj -> C:\Users\529106896\source\repos\lab5\Debug\lab5.exe

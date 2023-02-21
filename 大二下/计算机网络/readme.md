@@ -6,7 +6,7 @@
 
 ## 特别推荐
 
-有空可以多看看黄指导的git，不仅拥有课程内容，还有许多课外知识。:
+有空可以多看看黄指导的git，不仅拥有课程内容，还有许多课外知识。
 
 :muscle::yum::thumbsup: [黄指导のgitee](https://gitee.com/whuangxmu) :heart::heart::heart:
 

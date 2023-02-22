@@ -8,8 +8,8 @@
 
 个人比较推荐SpaceSniffer，感觉这种方式看得舒服一些
 
-![image-20230222134208394](C:\Users\529106896\AppData\Roaming\Typora\typora-user-images\image-20230222134208394.png)
+![SpaceSnifferExample](SpaceSnifferExample.png)
 
-## WinDirstar运行示例
+## WinDirstat运行示例
 
-![image-20230222134322184](C:\Users\529106896\AppData\Roaming\Typora\typora-user-images\image-20230222134322184.png)
+![WinDirstatExample](WinDirstatExample.png)

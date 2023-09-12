@@ -10,7 +10,11 @@
   * 下载地址：[百度网盘](https://pan.baidu.com/s/1TWnS5Dh9IlY3Sz8d-mM22A?pwd=kn84) 
 
 * 一些oj题目，是当时本人刚转来软工在学院oj上刷过的一些题，现在软工的C语言课基本都用的这个oj，可以作为参考
-  * oj地址（需学号注册）：http://59.77.13.248/JudgeOnline/
+  * ~~oj地址（需学号注册）：http://59.77.13.248/JudgeOnline （已失效）~~
+  > 另外推荐一些oj：
+  > * 力扣：https://leetcode.cn/problemset/all/
+  > * 牛客：https://www.nowcoder.com/exam/oj
+  > * Codeforces：https://codeforces.com/problemset
 * EasyX开发：zm老师C程序设计课程的大作业是做一个游戏，指定使用EasyX库开发，这是一些教程
   * 鄙人拙作：[Typing Game](https://github.com/529106896/Typing_Game)
 

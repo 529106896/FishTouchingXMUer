@@ -1,0 +1,6 @@
+{'accuracy': 0.8, 'f1_score': 0.74, 'recall_0': 0.53, 'recall_1': 0.92, 'precision_0': 0.75, 'precision_1': 0.82}
+{'accuracy': 0.79, 'f1_score': 0.73, 'recall_0': 0.53, 'recall_1': 0.9, 'precision_0': 0.69, 'precision_1': 0.81}
+{'accuracy': 0.8, 'f1_score': 0.74, 'recall_0': 0.53, 'recall_1': 0.92, 'precision_0': 0.75, 'precision_1': 0.82}
+{'accuracy': 0.8, 'f1_score': 0.74, 'recall_0': 0.53, 'recall_1': 0.92, 'precision_0': 0.75, 'precision_1': 0.82}
+{'accuracy': 0.79, 'f1_score': 0.74, 'recall_0': 0.59, 'recall_1': 0.87, 'precision_0': 0.67, 'precision_1': 0.83}
+{'accuracy': 0.8, 'f1_score': 0.74, 'recall_0': 0.53, 'recall_1': 0.92, 'precision_0': 0.75, 'precision_1': 0.82}

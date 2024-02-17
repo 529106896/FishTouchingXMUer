@@ -1,0 +1,120 @@
+accuracy-1
+              precision    recall  f1-score   support
+
+           0       0.47      0.37      0.41        62
+           1       0.67      0.75      0.71       105
+
+    accuracy                           0.61       167
+   macro avg       0.57      0.56      0.56       167
+weighted avg       0.60      0.61      0.60       167
+
+accuracy-3
+              precision    recall  f1-score   support
+
+           0       0.47      0.37      0.41        62
+           1       0.67      0.75      0.71       105
+
+    accuracy                           0.61       167
+   macro avg       0.57      0.56      0.56       167
+weighted avg       0.60      0.61      0.60       167
+
+accuracy-5
+              precision    recall  f1-score   support
+
+           0       0.50      0.39      0.44        62
+           1       0.68      0.77      0.72       105
+
+    accuracy                           0.63       167
+   macro avg       0.59      0.58      0.58       167
+weighted avg       0.61      0.63      0.62       167
+
+precision-1
+              precision    recall  f1-score   support
+
+           0       0.47      0.37      0.41        62
+           1       0.67      0.75      0.71       105
+
+    accuracy                           0.61       167
+   macro avg       0.57      0.56      0.56       167
+weighted avg       0.60      0.61      0.60       167
+
+precision-3
+              precision    recall  f1-score   support
+
+           0       0.47      0.37      0.41        62
+           1       0.67      0.75      0.71       105
+
+    accuracy                           0.61       167
+   macro avg       0.57      0.56      0.56       167
+weighted avg       0.60      0.61      0.60       167
+
+precision-5
+              precision    recall  f1-score   support
+
+           0       0.48      0.35      0.41        62
+           1       0.67      0.77      0.72       105
+
+    accuracy                           0.62       167
+   macro avg       0.57      0.56      0.56       167
+weighted avg       0.60      0.62      0.60       167
+
+recall-1
+              precision    recall  f1-score   support
+
+           0       0.62      0.34      0.44        62
+           1       0.69      0.88      0.77       105
+
+    accuracy                           0.68       167
+   macro avg       0.65      0.61      0.61       167
+weighted avg       0.66      0.68      0.65       167
+
+recall-3
+              precision    recall  f1-score   support
+
+           0       0.67      0.32      0.43        62
+           1       0.69      0.90      0.79       105
+
+    accuracy                           0.69       167
+   macro avg       0.68      0.61      0.61       167
+weighted avg       0.68      0.69      0.66       167
+
+recall-5
+              precision    recall  f1-score   support
+
+           0       0.58      0.34      0.43        62
+           1       0.69      0.86      0.76       105
+
+    accuracy                           0.66       167
+   macro avg       0.64      0.60      0.60       167
+weighted avg       0.65      0.66      0.64       167
+
+f1_score-1
+              precision    recall  f1-score   support
+
+           0       0.47      0.37      0.41        62
+           1       0.67      0.75      0.71       105
+
+    accuracy                           0.61       167
+   macro avg       0.57      0.56      0.56       167
+weighted avg       0.60      0.61      0.60       167
+
+f1_score-3
+              precision    recall  f1-score   support
+
+           0       0.47      0.37      0.41        62
+           1       0.67      0.75      0.71       105
+
+    accuracy                           0.61       167
+   macro avg       0.57      0.56      0.56       167
+weighted avg       0.60      0.61      0.60       167
+
+f1_score-5
+              precision    recall  f1-score   support
+
+           0       0.50      0.39      0.44        62
+           1       0.68      0.77      0.72       105
+
+    accuracy                           0.63       167
+   macro avg       0.59      0.58      0.58       167
+weighted avg       0.61      0.63      0.62       167
+

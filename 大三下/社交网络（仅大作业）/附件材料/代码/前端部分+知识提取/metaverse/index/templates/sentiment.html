@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel='stylesheet' type='text/css' href='{% static 'css/wuxia-red.css' %}' />
+
+		<!-- Fav and touch icons -->
+		<link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'images/icons/apple-touch-icon-114-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'img/icons/apple-touch-icon-72-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed" href="{% static 'img/icons/apple-touch-icon-57-precomposed.png' %}" />
+
+		<!-- JS Libs -->
+		<script src="{% static 'js/libs/jquery.min.js' %}"></script>
+		<script>window.jQuery || document.write("<script src='{% static 'js/libs/jquery.js' %}'><\/script>")</script>
+		<script src="{% static 'js/libs/modernizr.js' %}"></script>
+		<script src="{% static 'js/libs/selectivizr.js' %}"></script>
+
+		<script>
+			$(document).ready(function(){
+
+				// Navbar tooltips
+				$('.navbar [title]').tooltip({
+					placement: 'bottom'
+				});
+
+				// Content tooltips
+				$('[role=main] [title]').tooltip({
+					placement: 'top'
+				});
+
+				// Dropdowns
+				$('.dropdown-toggle').dropdown();
+
+			});
+		</script>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+    </head>
+    <body>
+        <header class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".user">
+						<span class="icon-user"></span>
+					</button>
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".navigation">
+						<span class="icon-chevron-down"></span>
+					</button>
+					<a class="brand" href="#">社交网络应用期末大作业展示</a>
+					<nav class="nav-collapse navigation">
+						<ul class="nav" role="navigation">
+							<li class="active"><a href="{% url 'index' %}" title="期末大作业展示"><span class="icon-home"></span> 返回主页</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+        <div class="container">
+            <div class="content">
+                <div class="page-header" id="WordCloud">
+					<h1>情感分析</h1>
+				</div>
+				<div class="page-container">
+					<div class="row">
+						<article class="span4">
+							<p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结果显示这批微博数据的情感趋于两极化，正面情感的相较于负面情感较多，由此推测大多数微博用户对于元宇宙相关看法还是较为乐观的</p>
+						</article>
+						<article class="span8">
+                            <img src="{% static 'images/sentiments.png' %}">
+                            <img src="{% static 'images/awithChinese.png' %}">
+						</article>
+					</div>
+            </div>
+        </div>
+    </body>
+</html>

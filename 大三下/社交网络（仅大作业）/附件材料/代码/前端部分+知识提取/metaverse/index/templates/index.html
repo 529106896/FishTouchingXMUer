@@ -1,0 +1,469 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if IE 7]>    <html class="no-js ie7 ie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 ie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 ie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8" />
+		<title>社交网络应用期末大作业</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Walking Pixels | www.walkingpixels.com" />
+		<meta name="robots" content="index, follow" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- CSS styles -->
+		<link rel='stylesheet' type='text/css' href='{% static 'css/wuxia-red.css' %}' />
+		
+		<!-- Fav and touch icons -->
+		<link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'images/icons/apple-touch-icon-114-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'img/icons/apple-touch-icon-72-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed" href="{% static 'img/icons/apple-touch-icon-57-precomposed.png' %}" />
+		
+		<!-- JS Libs -->
+		<script src="{% static 'js/libs/jquery.min.js' %}"></script>
+		<script>window.jQuery || document.write("<script src='{% static 'js/libs/jquery.js' %}'><\/script>")</script>
+		<script src="{% static 'js/libs/modernizr.js' %}"></script>
+		<script src="{% static 'js/libs/selectivizr.js' %}"></script>
+		
+		<script>
+			$(document).ready(function(){
+				
+				// Navbar tooltips
+				$('.navbar [title]').tooltip({
+					placement: 'bottom'
+				});
+				
+				// Content tooltips
+				$('[role=main] [title]').tooltip({
+					placement: 'top'
+				});
+				
+				// Dropdowns
+				$('.dropdown-toggle').dropdown();
+				
+			});
+		</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+	<body>
+	
+		<!-- Main navigation bar -->
+		<header class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".user">
+						<span class="icon-user"></span>
+					</button>
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".navigation">
+						<span class="icon-chevron-down"></span>
+					</button>
+					<a class="brand" href="#">社交网络应用期末大作业展示</a>
+					<nav class="nav-collapse navigation">
+						<ul class="nav" role="navigation">
+							<li class="active"><a href="{% url 'index' %}" title="期末大作业展示"><span class="icon-home"></span> 社交网络应用</a></li>
+							<li><a href="#WordCloud" title="词云图"><span class="icon-cloud"></span> 词云图</a></li>
+                            <li><a href="#WordCount" title="词频图"><span class="icon-book"></span> 词频图</a></li>
+							<li><a href="#WeiboContent" title="微博数据"><span class="icon-table"></span> 微博数据</a></li>
+							<li><a href="#AdminStage" title="管理员后台"><span class="icon-file"></span> 管理员后台</a></li>
+							<li><a href="{% url 'countLDA' %}" title="使用Count进行聚类"><span class="icon-bookmark"></span> 聚类Count</a></li>
+                            <li><a href="{% url 'tfidfLDA' %}" title="使用TFIDF进行聚类"><span class="icon-bookmark"></span> 聚类TFIDF</a></li>
+                            <li><a href="{% url 'sentiment' %}" title="情感分析"><span class="icon-heart"></span> 情感分析</a></li>
+							<li><a href="{% url 'know' %}" title="知识抽取"><span class="icon-book"></span> 知识抽取</a></li>
+							<li class="divider-vertical"></li>
+{#							<li><a href="#" title="Buttons in navbar!" class="btn-wuxia-navbar"><div class="btn btn-wuxia"><span class="icon-key"></span> Widgets</div></a></li>#}
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+		<!-- /Main navigation bar -->
+		
+		<!-- Main content -->
+		<div class="container" role="main">
+		
+			<!-- Breadcrumbs -->
+			<ul class="breadcrumb">
+				<li><a href="#"><span class="icon-home"></span> 社交网络应用</a></li>
+				<li><a href="#">期末大作业</a></li>
+				<li class="active">主页</li>
+			</ul>
+			<!-- Breadcrumbs -->
+		
+			<!-- Secondary navigation in hero unit -->
+			<div class="hero-unit blow">
+				<h1>元宇宙</h1>
+				<p>我们的小组名是“凤凰治疗包”，组员有<strong>袁佳哲</strong>、<strong>谢健祥</strong>、<strong>徐荪睿</strong>、<strong>程昊天</strong>。</p>
+                <p>我们的期末大作业主题关键词是<strong>元宇宙</strong>，主要工作围绕聚类结果、词云图、情感分析等方面开展。</p>
+				<div class="nav-secondary inverse">
+					<nav>
+						<ul>
+							<li><a class="wuxify-me" href="#WordCloud"><span class="icon-cloud"></span>词云图查看</a></li>
+                            <li><a class="wuxify-me" href="#WordCount"><span class="icon-book"></span>词频图查看</a></li>
+							<li><a class="wuxify-me" href="#WeiboContent"><span class="icon-table"></span>微博数据</a></li>
+							<li><a class="wuxify-me" href="#AdminStage"><span class="icon-file"></span>管理员后台</a></li>
+                            <li><a class="wuxify-me" href="{% url 'countLDA' %}"><span class="icon-bookmark"></span>聚类（Count）</a></li>
+                            <li><a class="wuxify-me" href="{% url 'tfidfLDA' %}"><span class="icon-bookmark"></span>聚类（TFIDF）</a></li>
+                            <li><a class="wuxify-me" href="{% url 'sentiment' %}"><span class="icon-heart"></span>情感分析</a></li>
+							<li><a class="wuxify-me" href="{% url 'know' %}"><span class="icon-book"></span> 知识抽取</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- /Secondary navigation in hero unit -->
+			
+			<!-- Main data container -->
+			<div class="content">
+			
+				<!-- Page header -->
+				<div class="page-header" id="WordCloud">
+					<h1>词云图展示</h1>
+{#					<ul class="page-header-actions">#}
+{#						<li><a href="http://twitter.github.com/bootstrap/" class="btn btn-wuxia btn-inverse pull-right" title="Official Bootstrap website" target="_blank"><span class="icon-bookmark"></span> Bootstrap v2.0.4</a></li>#}
+{#					</ul>#}
+				</div>
+				<!-- /Page header -->
+				
+				<!-- Page container -->
+				<div class="page-container">
+					<!-- Grid row -->
+					<div class="row">
+
+						<!-- Page grid cell (4 blocks) -->
+						<article class="span4">
+							<p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;词云图中的关键词如数字、科技、链接等时数据的主题有了很强的科技色彩。这也符合元宇宙是利用科技手段进行链接与创造，与现实世界映射与交互的虚拟世界的定义。</p>
+							<p class="lead" style="font-size: 17px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而概念、世界、游戏、现实等也暗暗透露出元宇宙现在还只停留在概念层面、 并未真正的实现，游戏可能是现阶段的一个发展方向。板块、公司、投资、股票、指数等词则将视线转向金融领域，似乎元宇宙的出现让资本市场掀起了一股浪潮。</p>
+{#							<p>这是词云图这是词云图这是词云图这是词云图这是词云图这是词云图这是词云图这是词云图这是词云图这是词云图这是词云图</p>#}
+						</article>
+						<article class="span8">
+                            <!-- 这个div不能去掉，不然有bug -->
+							<div id="flot" class="flot dashboard" style="display: none"></div>
+                            <img src="{% static 'images/wordcloud_myscoring_shadow.png' %}">
+						</article>
+					</div>
+					<!-- /Grid row -->
+					
+				</div>
+
+
+				<!-- /Page container -->
+				
+			</div>
+
+            <div class="content">
+                <div class="page-header" id="WordCount">
+					<h1>词频图展示</h1>
+{#					<ul class="page-header-actions">#}
+{#						<li><a href="http://twitter.github.com/bootstrap/" class="btn btn-wuxia btn-inverse pull-right" title="Official Bootstrap website" target="_blank"><span class="icon-bookmark"></span> Bootstrap v2.0.4</a></li>#}
+{#					</ul>#}
+				</div>
+				<div class="page-container">
+					<!-- Grid row -->
+                    <img src="{% static 'images/word_count.png' %}">
+                    <p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从词频统计柱状图中可以看出，‘元宇宙’的词频一骑绝尘，达到了20多万次，是第二多的‘数字’的约六倍，这可能是因为我们爬取微博时设置的关键词即为‘元宇宙’，这样每一条微博中都包含了至少一个‘元宇宙’，使得‘元宇宙’的词频最大。</p>
+                    <p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;随后出现次数较多的‘数字’、‘板块’、‘市场’等也与元宇宙相关，从中可以看出元宇宙的金融属性较强，科技含量也比较高。</p>
+                </div>
+            </div>
+			<!-- /Main data container -->
+			
+			<!-- Main data container -->
+			<div class="content">
+			
+				<!-- Page header -->
+				<div class="page-header" id="AdminStage">
+					<h1><span class="icon-star"></span> 进入管理页面</h1>
+{#					<span class="loading" title="Loading, please wait&hellip;">Loading&hellip;</span>#}
+				</div>
+				<!-- /Page header -->
+				
+				<!-- Page container -->
+				<div class="page-container">
+				
+					<!-- Grid row -->
+					<div class="row">
+					
+						<!-- Page grid cell (12 blocks - full) -->
+						<article class="span12">
+							<div class="nav-secondary">
+								<nav>
+									<ul>
+										<li><a class="wuxify-me" onclick=window.location.href='http://localhost:8000/admin'><span class="icon-home"></span>Django管理后台</a></li>
+									</ul>
+								</nav>
+							</div>
+						</article>
+						<!-- /Page grid cell (12 blocks - full) -->
+						
+					</div>
+					<!-- /Grid row -->
+					
+				</div>
+				<!-- /Page container -->
+				
+			</div>
+			<!-- /Main data container -->
+			
+			<!-- Main data container -->
+			<div class="content">
+			
+				<!-- Tab content -->
+				<div class="page-container tab-content">
+				
+					<!-- Tab #ui -->
+					<div class="tab-pane active" id="ui">
+
+						<div class="row" id="WeiboContent">
+						
+							<!-- Page grid cell (12 blocks - full) -->
+							<article class="span12">
+                                <h2>微博内容（仅1000条）</h2>
+							</article>
+							<!-- /Page grid cell (12 blocks - full) -->
+							
+							<!-- Page grid cell (8 blocks) -->
+							<article class="span8">
+								<table class="datatable table table-striped table-bordered" style="table-layout: fixed" id="example">
+									<thead>
+										<tr>
+                                            <th>博主昵称</th>
+                                            <th>微博认证</th>
+                                            <th width="200px">微博内容</th>
+                                            <th>发布时间</th>
+                                            <th width="50px">转发</th>
+                                            <th width="50px">评论</th>
+                                            <th width="50px">点赞</th>
+										</tr>
+									</thead>
+									<tbody>
+                                        {% for data in data_list %}
+                                            <tr>
+                                                <td>{{ data.weibo_username }}</td>
+                                                {% if data.weibo_verification != None %}
+                                                <td>{{ data.weibo_verification }}</td>
+                                                {% else %}
+                                                <td>未认证</td>
+                                                {% endif %}
+                                                <td style="white-space: nowrap;overflow: hidden; text-overflow: ellipsis;" title="{{ data.weibo_content }}">{{ data.weibo_content }}</td>
+                                                <td>{{ data.submit_time }}</td>
+                                                <td>{{ data.forward_counts }}</td>
+                                                <td>{{ data.comments_counts }}</td>
+                                                <td>{{ data.points_times }}</td>
+                                            </tr>
+                                        {% endfor %}
+									</tbody>
+								</table>
+							</article>
+							<article class="span4">
+								<h3>微博数据说明</h3>
+                                <p>微博数据爬取主题关键词为“<strong>元宇宙</strong>”，时间周期为 <em>2021年9月1日——2021年11月5日</em>，总共获取 <em>192834</em> 条数据，经去重后剩余 <em>132205</em> 条数据。</p>
+                                <p>爬虫代码使用<code>python</code>编写，主要由实验一的爬虫代码改编而来，在原有基础上修正了<strong>微博内容</strong>、<strong>微博认证</strong>、<strong>转发</strong>、<strong>评论</strong>、<strong>点赞</strong>标签的爬取。</p>
+                                <p>因前端限制，此处仅展示1000条数据，全部数据可以点击下方链接进行下载，总文件大小约100MB。</p>
+								<p class="demo-btns">
+                                    <a href="https://pan.baidu.com/s/1sq9U3kSg0NocO-H8lR0ieg?pwd=fbzj"><button class="btn btn-info btn-wuxia">下载全部数据（密码fbzj）</button></a>
+                                </p>
+							</article>
+							<!-- Page grid cell (4 blocks) -->
+							
+						</div>
+						<!-- Grid row -->
+						
+					</div>
+					<!-- /Tab #ui -->
+					
+				</div>
+				<!-- /Tab content -->
+			
+			</div>
+			<!-- /Main data container -->
+			
+		</div>
+		<!-- /Main content -->
+		
+		<!-- Main footer -->
+		<footer class="container">
+			<nav>
+				<ul>
+					<li>&copy; Copyright &copy; 2022 凤凰治疗包小组制作</li>
+				</ul>
+			</nav>
+{#			<p>&copy; Copyright &copy; 2013.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>#}
+		</footer>
+		<!-- /Main footer -->
+		
+		<!-- Scripts -->
+		<script src="{% static 'js/navbar.js' %}"></script>
+		<script src="{% static 'js/plugins/waypoints.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap/bootstrap-tooltip.js' %}"></script>
+		<script src="{% static 'js/bootstrap/bootstrap-dropdown.js' %}"></script>
+		<script src="{% static 'js/bootstrap/bootstrap-collapse.js' %}"></script>
+		
+		<!-- jQuery Flot Charts -->
+		<!--[if lte IE 8]>
+			<script language="javascript" type="text/javascript" src="{% static 'js/plugins/flot/excanvas.min.js' %}"></script>
+		<![endif]-->
+		<script src="{% static 'js/plugins/flot/jquery.flot.js' %}"></script>
+		<script src="{% static 'js/plugins/flot/jquery.flot.pie.js' %}"></script>
+		
+		<script>
+			$(document).ready(function() {
+			
+				// Flot Chart
+				// we use an inline data source in the example, usually data would be fetched from a server
+				var data = [], totalPoints = 300;
+				function getRandomData() {
+					if (data.length > 0)
+						data = data.slice(1);
+				
+					// do a random walk
+					while (data.length < totalPoints) {
+						var prev = data.length > 0 ? data[data.length - 1] : 50;
+						var y = prev + Math.random() * 10 - 5;
+						if (y < 0)
+							y = 0;
+						if (y > 100)
+							y = 100;
+						data.push(y);
+					}
+				
+					// zip the generated y values with the x values
+					var res = [];
+					for (var i = 0; i < data.length; ++i)
+						res.push([i, data[i]])
+					return res;
+				}
+				
+				// setup control widget
+				var updateInterval = 30;
+				$("#updateInterval").val(updateInterval).change(function () {
+					var v = $(this).val();
+					if (v && !isNaN(+v)) {
+						updateInterval = +v;
+					if (updateInterval < 1)
+						updateInterval = 1;
+					if (updateInterval > 2000)
+						updateInterval = 2000;
+					$(this).val("" + updateInterval);
+					}
+				});
+				
+				// setup plot
+				var options = {
+					series: { shadowSize: 0, color: "#FF371B" }, // drawing is faster without shadows
+					yaxis: { min: 0, max: 100 },
+					xaxis: { show: false },
+					grid: { backgroundColor: '#ffffff' }
+				};
+				var plot = $.plot($("#flot"), [ getRandomData() ], options);
+				
+				function update() {
+					plot.setData([ getRandomData() ]);
+					// since the axes don't change, we don't need to call plot.setupGrid()
+					plot.draw();
+					setTimeout(update, updateInterval);
+				}
+				
+				update();
+			
+			});
+		</script>
+		
+		<!-- jQuery DataTable -->
+		<script src="{% static 'js/plugins/dataTables/jquery.datatables.min.js' %}"></script>
+		<script>
+			/* Default class modification */
+			$.extend( $.fn.dataTableExt.oStdClasses, {
+				"sWrapper": "dataTables_wrapper form-inline"
+			} );
+			
+			/* API method to get paging information */
+			$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+			{
+				return {
+					"iStart":         oSettings._iDisplayStart,
+					"iEnd":           oSettings.fnDisplayEnd(),
+					"iLength":        oSettings._iDisplayLength,
+					"iTotal":         oSettings.fnRecordsTotal(),
+					"iFilteredTotal": oSettings.fnRecordsDisplay(),
+					"iPage":          Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+					"iTotalPages":    Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+				};
+			}
+			
+			/* Bootstrap style pagination control */
+			$.extend( $.fn.dataTableExt.oPagination, {
+				"bootstrap": {
+					"fnInit": function( oSettings, nPaging, fnDraw ) {
+						var oLang = oSettings.oLanguage.oPaginate;
+						var fnClickHandler = function ( e ) {
+							e.preventDefault();
+							if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) ) {
+								fnDraw( oSettings );
+							}
+						};
+			
+						$(nPaging).addClass('pagination').append(
+							'<ul>'+
+								'<li class="prev disabled"><a href="#"><span class="icon-caret-left"></span> '+oLang.sPrevious+'</a></li>'+
+								'<li class="next disabled"><a href="#">'+oLang.sNext+' <span class="icon-caret-right"></span></a></li>'+
+							'</ul>'
+						);
+						var els = $('a', nPaging);
+						$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
+						$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+					},
+			
+					"fnUpdate": function ( oSettings, fnDraw ) {
+						var iListLength = 0;
+						var oPaging = oSettings.oInstance.fnPagingInfo();
+						var an = oSettings.aanFeatures.p;
+						var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
+			
+						if ( oPaging.iTotalPages < iListLength) {
+							iStart = 1;
+							iEnd = oPaging.iTotalPages;
+						}
+						else if ( oPaging.iPage <= iHalf ) {
+							iStart = 1;
+							iEnd = iListLength;
+						} else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
+							iStart = oPaging.iTotalPages - iListLength + 1;
+							iEnd = oPaging.iTotalPages;
+						} else {
+							iStart = oPaging.iPage - iHalf + 1;
+							iEnd = iStart + iListLength - 1;
+						}
+			
+						for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
+			
+							// Add / remove disabled classes from the static elements
+							if ( oPaging.iPage === 0 ) {
+								$('li:first', an[i]).addClass('disabled');
+							} else {
+								$('li:first', an[i]).removeClass('disabled');
+							}
+			
+							if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 ) {
+								$('li:last', an[i]).addClass('disabled');
+							} else {
+								$('li:last', an[i]).removeClass('disabled');
+							}
+						}
+					}
+				}
+			});
+			
+			/* Table #example */
+			$(document).ready(function() {
+				$('.datatable').dataTable( {
+					"sDom": "<'row'<'span4'l><'span4'f>r>t<'row'<'span4'i><'span4'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ 条数据每页"
+					}
+				});
+			});
+		</script>
+		
+		
+	<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8" />
+		<title>社交网络应用期末大作业</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Walking Pixels | www.walkingpixels.com" />
+		<meta name="robots" content="index, follow" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- CSS styles -->
+		<link rel='stylesheet' type='text/css' href='{% static 'css/wuxia-red.css' %}' />
+		
+		<!-- Fav and touch icons -->
+		<link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'images/icons/apple-touch-icon-114-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'img/icons/apple-touch-icon-72-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed" href="{% static 'img/icons/apple-touch-icon-57-precomposed.png' %}" />
+		
+		<!-- JS Libs -->
+		<script src="{% static 'js/libs/jquery.min.js' %}"></script>
+		<script>window.jQuery || document.write("<script src='{% static 'js/libs/jquery.js' %}'><\/script>")</script>
+		<script src="{% static 'js/libs/modernizr.js' %}"></script>
+		<script src="{% static 'js/libs/selectivizr.js' %}"></script>
+		
+		<script>
+			$(document).ready(function(){
+				
+				// Navbar tooltips
+				$('.navbar [title]').tooltip({
+					placement: 'bottom'
+				});
+				
+				// Content tooltips
+				$('[role=main] [title]').tooltip({
+					placement: 'top'
+				});
+				
+				// Dropdowns
+				$('.dropdown-toggle').dropdown();
+				
+			});
+		</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+		
+<body>
+    <!-- Main navigation bar -->
+		<header class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".user">
+						<span class="icon-user"></span>
+					</button>
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".navigation">
+						<span class="icon-chevron-down"></span>
+					</button>
+					<a class="brand" href="#">社交网络应用期末大作业展示</a>
+					<nav class="nav-collapse navigation">
+						<ul class="nav" role="navigation">
+							<li class="active"><a href="{% url 'index' %}" title="期末大作业展示"><span class="icon-home"></span> 社交网络应用</a></li>
+							<li><a href="{% url 'countLDA' %}" title="使用Count进行聚类"><span class="icon-bookmark"></span> 聚类Count</a></li>
+                            <li><a href="{% url 'tfidfLDA' %}" title="使用TFIDF进行聚类"><span class="icon-bookmark"></span> 聚类TFIDF</a></li>
+                            <li><a href="{% url 'tfidfLDA' %}" title="情感分析"><span class="icon-heart"></span> 情感分析</a></li>
+							<li><a href="{% url 'know' %}" title="知识抽取"><span class="icon-book"></span> 知识抽取</a></li>
+							<li class="divider-vertical"></li>
+{#							<li><a href="#" title="Buttons in navbar!" class="btn-wuxia-navbar"><div class="btn btn-wuxia"><span class="icon-key"></span> Widgets</div></a></li>#}
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+		<!-- /Main navigation bar -->
+<div class="container">
+    <div class="content">
+				<!-- Page header -->
+				<div class="page-header" id="AdminStage">
+					<h1><span class="icon-star"></span> 命名实体识别和关系抽取</h1>
+{#					<span class="loading" title="Loading, please wait&hellip;">Loading&hellip;</span>#}
+				</div>
+				<!-- /Page header -->    
+  
+                <!-- Page container -->
+				<div class="page-container">
+    <form action="/getText/" method="post">
+        {% csrf_token %}
+        <label>文档：</label><input type="text" name="q" value="{{ input }}">
+        <input type="submit" value="提交">
+    </form>
+
+    <label>文档内容：</label>
+    <p>
+        {% spaceless %}
+        {% for key,value in dict.items %}
+        {% if value == 'nr' %}<span style="color: red">{{key}}</span>
+        {% elif value == 'v' %}<span style="color: green">{{key}}</span>
+        {% elif value == 't' or value == 'm' or value == 'qt' or value == 'b'%}<span style="color: blue">{{key}}</span>
+        {% elif value == 'ns' %}<span style="color: purple">{{key}}</span>
+        {% elif value == 'nis' %}<span style="color: orange">{{key}}</span>
+        {% elif value == 'a' %}<span style="color: yellowgreen">{{key}}</span>
+        {% else %}<span style="color: wheat">{{key}}</span>
+        {% endif %}
+        {% endfor %}
+        {% endspaceless %}
+    </p>
+
+    <label>命名实体识别：</label>
+    <ul>
+        <label>人名：</label>
+        <li>jiagu: 
+            {% if Pname %}
+            {% for Pn in Pname %}
+            <a>{{ Pn }}</a>
+            {% endfor %}
+            {% else %}
+            无
+            {% endif %}
+        </li>
+        <li>hanlp:
+            {% if hPname %}
+            {% for Pn in hPname %}
+            <a>{{ Pn }}</a>
+            {% endfor %}
+            {% else %}
+            无
+            {% endif %}
+        </li>
+
+        <label>地名：</label>
+        <li>jiagu: 
+            {% if Lname %}
+            {% for Pn in Lname %}
+            <a>{{ Pn }}</a>
+            {% endfor %}
+            {% else %}
+            无
+            {% endif %}
+        </li>
+        <li>hanlp: 
+            {% if hLname %}
+            {% for Pn in hLname %}
+            <a>{{ Pn }}</a>
+            {% endfor %}
+            {% else %}
+            无
+            {% endif %}
+        </li>
+
+        <label>机构名：</label>
+        <li>jiagu: 
+            {% if Iname %}
+            {% for Pn in Iname %}
+            <a>{{ Pn }}</a>
+            {% endfor %}
+            {% else %}
+            无
+            {% endif %}
+        </li>
+        <li>hanlp: 
+            {% if hIname %}
+            {% for Pn in hIname %}
+            <a>{{ Pn }}</a>
+            {% endfor %}
+            {% else %}
+            无
+            {% endif %}
+        </li>
+    </ul>
+
+    <label>关系抽取：</label>
+    <ul>
+        {% for view in views_list %}
+            <li><a>{{ view }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+    </div>
+</div>
+</body>
+</html>
+

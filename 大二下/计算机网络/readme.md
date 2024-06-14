@@ -6,11 +6,13 @@
 
 ## 特别推荐
 
-有空可以多看看黄指导的git，不仅拥有课程内容，还有许多课外知识。
+有空可以多看看黄指导的git和B站，不仅拥有课程内容，还有许多课外知识。
 
 :muscle::yum::thumbsup: [黄指导のgitee](https://gitee.com/whuangxmu) :heart::heart::heart:
 
 :v::older_man::point_right: [黄指导のgithub](https://github.com/whuangxm) :star::star::star:
+
+:heart::heart::heart:黄指导B站计网视频（点关注，不迷路）:heart::heart::heart: https://space.bilibili.com/8081870/channel/collectiondetail?sid=35240
 
 ## 关于作业与习题
 

@@ -19,3 +19,7 @@
   * 鄙人拙作：[Typing Game](https://github.com/529106896/Typing_Game)
 
 因为信院保密性做的比较好，所以没有卷纸，但我相信只要oj刷多了，并且熟读Cpp，期末90+不是问题
+
+# 额外福利
+
+:heart::heart::heart:黄指导B站C语言教学视频：https://space.bilibili.com/8081870/channel/collectiondetail?sid=315601 :heart::heart::heart:

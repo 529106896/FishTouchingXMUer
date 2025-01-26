@@ -1,5 +1,7 @@
 # 必读
 
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+
 目前已有资料如下所示，按学期顺序及本人选课情况整理
 
 打勾代表已上传，没打勾的日后有时间会陆续更新

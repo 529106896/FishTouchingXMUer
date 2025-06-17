@@ -1,6 +1,6 @@
 # 相关说明
 
-Java程序设计是软工大二下的选修课，但Java程序设计实践，以及后续的OOAD、JavaEE都需要Java知识作为基础，因此请各位同学务必学好Java
+Java程序设计是软工大二下的选修课，大二小学期的Java程序设计实践，以及大三的OOAD、JavaEE都需要Java知识作为基础，因此请各位同学务必学好Java
 
 这里的Java课仅涉及Java基础知识，其余进阶知识请参考大三课程：OOAD、JavaEE
 

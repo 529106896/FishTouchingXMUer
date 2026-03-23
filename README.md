@@ -100,3 +100,15 @@
 - 大数据分析（信院软工课程）
 - 嵌入式系统（信院软工课程）
 - 磁盘分析工具（看哪些东西占了你的磁盘空间）
+
+
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=529106896%2FFishTouchingXMUer&type=date&logscale=&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=529106896/FishTouchingXMUer&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=529106896/FishTouchingXMUer&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=529106896/FishTouchingXMUer&type=date&legend=top-left" />
+ </picture>
+</a>
